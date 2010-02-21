@@ -31,4 +31,8 @@ describe "Files" do
     File.exists?("foo").should be_true
     File.read("foo").should=="bar"
   end
+
+  it "should create a file with ERb in it"
+  it "should create a file from a file"
+  it "should create a file from a file with ERb in it"
 end
