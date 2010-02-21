@@ -2,7 +2,6 @@ require File.join(File.dirname(__FILE__),"..","kickstart.rb")
 require "fileutils"
 
 describe "Directories" do
-  include Kickstart
 
   before :each do
     @pwd = FileUtils.pwd
@@ -17,29 +16,39 @@ describe "Directories" do
   end
 
   it "should create a directory" do
-    directory "foo"
+    Kickstart.new do
+      directory "foo"
+    end
 
     File.directory?("foo").should be_true
   end
 
   it "should accept a block" do
     x = false
-    directory "foo" do
-      x = true
+
+    Kickstart.new do
+      directory "foo" do
+        x = true
+      end
     end
+
     x.should be_true
   end
 
   it "should create subdirectories" do
-    directory "foo" do
-      directory "bar"
+    Kickstart.new do
+      directory "foo" do
+        directory "bar"
+      end
     end
 
     File.directory?("foo/bar").should be_true
   end
 
   it "should make a tree of directories in one call" do
-    directory "foo", "bar"
+    Kickstart.new do
+      directory "foo", "bar"
+    end
 
     File.directory?("foo/bar").should be_true
   end
