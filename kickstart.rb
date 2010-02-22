@@ -1,3 +1,5 @@
+require "erb"
+
 class Kickstart
   def initialize &block
     if block_given?
@@ -26,6 +28,7 @@ class Kickstart
         if opts[:from]
         elsif opts[:from_erb]
         elsif opts[:erb]
+          file.print ERB.new(opts[:erb]).result(binding)
         end
       elsif opts.nil?
         # write nothing

@@ -32,7 +32,15 @@ describe "Files" do
     File.read("foo").should=="bar"
   end
 
-  it "should create a file with ERb in it"
+  it "should create a file with ERb in it" do
+    Kickstart.new do
+      file "foo", :erb=><<-STR
+<% 10.times do %>foo<% end %>
+STR
+    end
+
+    File.read("foo").strip.should==("foo"*10)
+  end
   it "should create a file from a file"
   it "should create a file from a file with ERb in it"
 end
