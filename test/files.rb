@@ -41,6 +41,22 @@ STR
 
     File.read("foo").strip.should==("foo"*10)
   end
-  it "should create a file from a file"
-  it "should create a file from a file with ERb in it"
+  it "should create a file from a file" do
+    File.open("template","w"){|f| f.print "fnar" }
+    Kickstart.new do
+      file "foo", :from => "template"
+    end
+
+    File.read("foo").should=="fnar"
+  end
+
+  it "should create a file from a file with ERb in it" do
+    File.open("template","w"){|f| f.puts "<%= 2+2 %>" }
+
+    Kickstart.new do
+      file "foo", :from_erb => "template"
+    end
+
+    File.read("foo").strip.should=="4"
+  end
 end

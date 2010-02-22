@@ -25,11 +25,13 @@ class Kickstart
       if opts.is_a? String
         file.print opts
       elsif opts.is_a? Hash
-        if opts[:from]
-        elsif opts[:from_erb]
-        elsif opts[:erb]
-          file.print ERB.new(opts[:erb]).result(binding)
-        end
+        file.print( if opts[:from]
+                      File.read(opts[:from])
+                    elsif opts[:from_erb]
+                      ERB.new(File.read(opts[:from_erb])).result(binding)
+                    elsif opts[:erb]
+                      ERB.new(opts[:erb]).result(binding)
+                    end )
       elsif opts.nil?
         # write nothing
       else
