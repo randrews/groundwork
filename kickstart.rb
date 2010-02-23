@@ -1,4 +1,5 @@
 require "erb"
+require "pathname"
 require File.join(File.dirname(__FILE__), "tar_wrapper.rb")
 
 class Kickstart
@@ -123,6 +124,37 @@ class Kickstart
       self.tar = data
       eval script
     end
+  end
+
+  # Generate a tree of file and directory calls that would create the given
+  # directory
+  def self.generate dir = FileUtils.pwd
+    base = Pathname.new dir
+
+    handle_dir = lambda do |d, output, indent|
+      FileUtils.cd d do
+        Dir["*"].each do |file|
+          if File.directory? file
+            if Dir[File.join(file,"*")].empty?
+              output.puts((" "*indent)+"directory \"#{file}\"")
+            else
+              output.puts("")
+              output.puts((" "*indent)+"directory \"#{file}\" do")
+              handle_dir[file, output, indent+2]
+              output.puts((" "*indent)+"end")
+            end
+          else
+            rel = Pathname.new(File.join(FileUtils.pwd,file))
+            relpath = rel.relative_path_from(base).to_s
+            output.puts((" "*indent)+"file \"#{file}\", :from => \"#{relpath}\"")
+          end
+        end
+      end
+    end
+
+    str = StringIO.new
+    handle_dir[dir, str, 0]
+    str.string
   end
 
   private
