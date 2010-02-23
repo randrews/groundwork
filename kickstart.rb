@@ -1,5 +1,5 @@
 require "erb"
-require "tar_wrapper.rb"
+require File.join(File.dirname(__FILE__), "tar_wrapper.rb")
 
 class Kickstart
   def initialize &block
@@ -8,8 +8,8 @@ class Kickstart
     end
   end
 
-  def data_block= stream
-    @tar = TarWrapper.new(stream.read)
+  def tar= data
+    @tar = TarWrapper.new(data)
   end
 
   def directory *name, &block
@@ -97,12 +97,26 @@ class Kickstart
       data = TarWrapper.compress files
     end
 
-    out.puts "self.data_block = DATA # generated"
+    out.puts "if $0==__FILE__"
+    out.puts "  require 'rubygems'"
+    out.puts "  require 'kickstart'"
+    out.puts "end"
+    out.puts ""
     out.puts script
+    out.puts ""
     out.puts "__END__"
     out.puts data
 
     out.string
+  end
+
+  def self.run script_file
+    (script, data) = File.read(script_file).split("\n__END__\n")
+
+    Kickstart.new do
+      self.tar = data
+      eval script
+    end
   end
 
   private
@@ -111,7 +125,7 @@ class Kickstart
     if @tar
       @tar[name]
     else
-      File.read[name]
+      File.read(name)
     end
   end
 end
