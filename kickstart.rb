@@ -1,4 +1,5 @@
 require "erb"
+require "tar_wrapper.rb"
 
 class Kickstart
   def initialize &block
