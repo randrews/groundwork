@@ -53,27 +53,27 @@ class Kickstart
     files = []
 
     class << dummy
-      attr_reader :required_files
+      attr_reader :files
 
       def directory *args
         yield if block_given?
       end
 
       def file name, opts=nil
-        @required_files << opts[:from] if opts[:from]
-        @required_files << opts[:from_erb] if opts[:from_erb]
+        @files << opts[:from] if opts[:from]
+        @files << opts[:from_erb] if opts[:from_erb]
       end
 
       def possible name
-        @required_files << name
+        @files << name
       end
 
       def method_missing *args ; end
     end
 
-    dummy.instance_variable_set "@required_files", []
+    dummy.instance_variable_set "@files", []
     dummy.instance_eval &block
 
-    dummy.required_files
+    dummy.files
   end
 end
