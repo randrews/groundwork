@@ -8,6 +8,10 @@ class Kickstart
     end
   end
 
+  def data_block= stream
+    @tar = TarWrapper.new(stream.read)
+  end
+
   def directory *name, &block
     FileUtils.mkdir_p File.join(name)
     if block_given?
@@ -27,9 +31,9 @@ class Kickstart
         file.print opts
       elsif opts.is_a? Hash
         file.print( if opts[:from]
-                      File.read(opts[:from])
+                      read_file opts[:from]
                     elsif opts[:from_erb]
-                      ERB.new(File.read(opts[:from_erb])).result(binding)
+                      ERB.new(read_file(opts[:from_erb])).result(binding)
                     elsif opts[:erb]
                       ERB.new(opts[:erb]).result(binding)
                     end )
@@ -93,10 +97,21 @@ class Kickstart
       data = TarWrapper.compress files
     end
 
+    out.puts "self.data_block = DATA # generated"
     out.puts script
     out.puts "__END__"
     out.puts data
 
     out.string
+  end
+
+  private
+
+  def read_file name
+    if @tar
+      @tar[name]
+    else
+      File.read[name]
+    end
   end
 end
