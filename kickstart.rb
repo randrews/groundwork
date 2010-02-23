@@ -38,6 +38,29 @@ class Kickstart
       else
         raise ArgumentError.new
       end
+    end
+  end
+
+  def self.required_files &block
+    dummy = Object.new
+    files = []
+
+    class << dummy
+      attr_reader :required_files
+
+      def directory *args
+        yield if block_given?
       end
+
+      def file name, opts=nil
+        @required_files ||= []
+        @required_files << opts[:from] if opts[:from]
+        @required_files << opts[:from_erb] if opts[:from_erb]
+      end
+    end
+
+    dummy.instance_eval &block
+
+    dummy.required_files
   end
 end
