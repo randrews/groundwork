@@ -41,6 +41,7 @@ STR
 
     File.read("foo").strip.should==("foo"*10)
   end
+
   it "should create a file from a file" do
     File.open("template","w"){|f| f.print "fnar" }
     Kickstart.new do
