@@ -39,10 +39,6 @@ describe "Compile" do
     recipe = Kickstart.compile("recipe")
     File.open("compiled","w"){|f| f.print recipe }
 
-    puts "----------------------------------------"
-    print recipe
-    puts "----------------------------------------"
-
     FileUtils.mkdir "tmp"
     FileUtils.cd "tmp" do
       lambda{ Kickstart.run "../compiled" }.should_not raise_error
