@@ -76,4 +76,27 @@ class Kickstart
 
     dummy.files
   end
+
+  # Takes a script file, finds the files it requires (paths relative to the script file),
+  # reads/tars them and returns a string containing the script and the TAR blob, ready
+  # to write to a file
+  def self.compile script_file
+    script = File.read(script_file)
+    out = StringIO.new
+    data = nil
+
+    FileUtils.cd(File.dirname(script_file)) do
+      files = required_files do
+        eval script
+      end
+
+      data = TarWrapper.compress files
+    end
+
+    out.puts script
+    out.puts "__END__"
+    out.puts data
+
+    out.string
+  end
 end
