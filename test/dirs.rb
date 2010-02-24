@@ -16,7 +16,7 @@ describe "Directories" do
   end
 
   it "should create a directory" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       directory "foo"
     end
 
@@ -26,7 +26,7 @@ describe "Directories" do
   it "should accept a block" do
     x = false
 
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       directory "foo" do
         x = true
       end
@@ -36,7 +36,7 @@ describe "Directories" do
   end
 
   it "should create subdirectories" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       directory "foo" do
         directory "bar"
       end
@@ -46,7 +46,7 @@ describe "Directories" do
   end
 
   it "should make a tree of directories in one call" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       directory "foo", "bar"
     end
 

@@ -16,7 +16,7 @@ describe "Files" do
   end
 
   it "should create an empty file" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       file "foo"
     end
 
@@ -24,7 +24,7 @@ describe "Files" do
   end
 
   it "should create a file with a string in it" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       file "foo", "bar"
     end
 
@@ -33,7 +33,7 @@ describe "Files" do
   end
 
   it "should create a file with ERb in it" do
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       file "foo", :erb=><<-STR
 <% 10.times do %>foo<% end %>
 STR
@@ -44,7 +44,7 @@ STR
 
   it "should create a file from a file" do
     File.open("template","w"){|f| f.print "fnar" }
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       file "foo", :from => "template"
     end
 
@@ -54,7 +54,7 @@ STR
   it "should create a file from a file with ERb in it" do
     File.open("template","w"){|f| f.puts "<%= 2+2 %>" }
 
-    Groundwork::Groundwork.new do
+    Groundwork::Recipe.new do
       file "foo", :from_erb => "template"
     end
 

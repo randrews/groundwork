@@ -20,13 +20,13 @@ describe "Generate" do
     File.open("file2","w"){|f| f.print "Contents of the file" }
     File.open("file3","w"){|f| f.print "Contents of the file" }
 
-    Groundwork::Groundwork.required_files{|| eval Groundwork::Groundwork.generate}.should==["file1","file2","file3"]
+    Groundwork::Recipe.required_files{|| eval Groundwork::Recipe.generate}.should==["file1","file2","file3"]
   end
 
   it "should generate empty directories" do
     FileUtils.mkdir "foo"
 
-    Groundwork::Groundwork.generate.should =~ /directory \"foo\"/
+    Groundwork::Recipe.generate.should =~ /directory \"foo\"/
   end
 
   it "should generate files within directories" do
@@ -34,7 +34,7 @@ describe "Generate" do
     FileUtils.mkdir "foo"
     File.open("foo/file2","w"){|f| f.print "Contents of the file" }
 
-    Groundwork::Groundwork.required_files{|| eval Groundwork::Groundwork.generate}.should==["file1","foo/file2"]
+    Groundwork::Recipe.required_files{|| eval Groundwork::Recipe.generate}.should==["file1","foo/file2"]
   end
 
 end
