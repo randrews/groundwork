@@ -4,7 +4,7 @@ module Groundwork
   def self.parse_options opts=ARGV
     global_opts = Trollop::options(opts) do
       banner "Groundwork"
-      version "0.0.1"
+      version "0.0.2"
       stop_on_unknown
     end
 
