@@ -146,6 +146,7 @@ module Groundwork
                 output.puts((" "*indent)+"directory \"#{file}\" do")
                 handle_dir[file, output, indent+2]
                 output.puts((" "*indent)+"end")
+                output.puts("")
               end
             else
               rel = Pathname.new(File.join(FileUtils.pwd,file))
@@ -158,7 +159,7 @@ module Groundwork
 
       str = StringIO.new
       handle_dir[dir, str, 0]
-      str.string
+      str.string.gsub(/\n\n+/,"\n\n") # Collapse adjacent blank lines
     end
 
     private
