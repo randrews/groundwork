@@ -12,7 +12,7 @@ SPEC=Gem::Specification.new do |s|
   s.description="Create scripts that describe the groundwork for laying out your projects, and generate project frameworks"
   s.rubyforge_project="groundwork" 
 
-  s.files=["lib/groundwork.rb", "lib/tar_wrapper.rb"]
+  s.files=["lib/groundwork.rb", "lib/tar_wrapper.rb", "lib/options.rb"]
   s.executables=["groundwork"]
   s.has_rdoc=false
  
