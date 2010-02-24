@@ -108,7 +108,7 @@ module Groundwork
 
       out.puts "if $0==__FILE__"
       out.puts "  require 'rubygems'"
-      out.puts "  require 'kickstart'"
+      out.puts "  require 'groundwork'"
       out.puts "end"
       out.puts ""
       out.puts script

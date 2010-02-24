@@ -6,15 +6,20 @@ begin
   options = Groundwork::parse_options
 
   case options[:command]
+
+    ##################################################
+    ### Generate #####################################
+    ##################################################
   when "generate"
+
     generate_opts = Trollop::options(options[:remainder]) do
       banner <<-STR
 Usage:
       groundwork generate [options] filename
-Generates a basic recipe, which you can modify, from the current directory
+Generates a basic .recipe.rb file, which you can modify, from the current directory
 [options] are:
 STR
-      opt :force, "Overwrite recipe file if exists", :default=>false
+      opt :force, "Overwrite .recipe.rb file if exists", :default=>false
       opt :ignore, "Ignore files matching these filename patterns", :type=>:strings
       opt :print, "Instead of storing in a file, print the recipe to stdout", :default=>false
       opt :chdir, "Before running, cd to the given directory", :default=>FileUtils.pwd
@@ -30,11 +35,49 @@ STR
     else
       name = options[:remainder].shift || "Recipe"
 
-      if File.exists?(name+".recipe") && !generate_opts[:force]
-        raise RuntimeError.new("File already exists: #{name}.recipe")
+      if File.exists?(name+".recipe.rb") && !generate_opts[:force]
+        raise RuntimeError.new("File already exists: #{name}.recipe.rb\nUse -f to overwrite")
       end
 
-      File.open(name+".recipe","w"){|f| f.print recipe}
+      File.open(name+".recipe.rb","w"){|f| f.print recipe}
+    end
+
+    ##################################################
+    ### Compile ######################################
+    ##################################################
+  when "compile"
+
+    compile_opts = Trollop::options(options[:remainder]) do
+      banner <<-STR
+Usage:
+      groundwork compile [options] filename.recipe.rb
+Compiles a .recipe.rb, including all referenced files into it.
+[options] are:
+STR
+      opt :force, "Overwrite .recipe file if exists", :default=>false
+      opt :print, "Instead of storing in a file, print the recipe to stdout", :default=>false
+      opt :chdir, "Before running, cd to the given directory", :default=>FileUtils.pwd
+    end
+
+    input = options[:remainder].shift
+    raise RuntimeError.new("No input file given") unless input
+    raise RuntimeError.new("Cannot open #{input}") unless File.exists?(input)
+
+    compiled = ""
+    FileUtils.cd(compile_opts[:chdir]) do
+      compiled = Groundwork::Recipe.compile input
+    end
+
+    if compile_opts[:print]
+      puts compiled
+    else
+      name = options[:remainder].shift || File.basename(input,".recipe.rb")
+
+      if File.exists?(name+".recipe") && !compile_opts[:force]
+        raise RuntimeError.new("File already exists: #{name}.recipe\nUse -f to overwrite")
+      end
+
+      File.open(name+".recipe","w"){|f| f.print compiled}
     end
   else
   end

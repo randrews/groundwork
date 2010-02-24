@@ -9,7 +9,7 @@ Usage:
 Currently, the only implemented command is "generate", which generates a recipe for the current directory
 Options are:
 STR
-      version "0.0.2"
+      version "0.0.3"
       stop_on_unknown
     end
 
@@ -21,7 +21,7 @@ STR
            })
   end
 
-  def self.short_for cmd_start, all_commands=["generate"]
+  def self.short_for cmd_start, all_commands=["generate", "compile"]
     return cmd_start unless cmd_start
     return cmd_start if all_commands.index(cmd_start)
 
