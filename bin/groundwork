@@ -1,3 +1,26 @@
 #!/usr/bin/ruby
 
 require File.join(File.dirname(__FILE__),"..","lib","groundwork.rb")
+
+begin
+  options = Groundwork::parse_options
+
+  case options[:command]
+  when "generate"
+    generate_opts = Trollop::options(options[:remainder]) do
+      opt :force, :default=>false
+    end
+
+    name = options[:remainder].shift || "Recipe"
+
+    if File.exists?(name+".recipe") && !generate_opts[:force]
+      raise RuntimeError.new("File already exists: #{name}.recipe")
+    end
+
+    recipe = Groundwork::Recipe.generate
+    File.open(name+".recipe","w"){|f| f.print recipe}
+  else
+  end
+rescue
+  puts $!.to_s
+end
