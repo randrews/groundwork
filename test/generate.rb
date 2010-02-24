@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"..","kickstart.rb")
+require File.join(File.dirname(__FILE__),"..","groundwork.rb")
 require "fileutils"
 
 describe "Generate" do
@@ -20,13 +20,13 @@ describe "Generate" do
     File.open("file2","w"){|f| f.print "Contents of the file" }
     File.open("file3","w"){|f| f.print "Contents of the file" }
 
-    Kickstart.required_files{|| eval Kickstart.generate}.should==["file1","file2","file3"]
+    Groundwork.required_files{|| eval Groundwork.generate}.should==["file1","file2","file3"]
   end
 
   it "should generate empty directories" do
     FileUtils.mkdir "foo"
 
-    Kickstart.generate.should =~ /directory \"foo\"/
+    Groundwork.generate.should =~ /directory \"foo\"/
   end
 
   it "should generate files within directories" do
@@ -34,7 +34,7 @@ describe "Generate" do
     FileUtils.mkdir "foo"
     File.open("foo/file2","w"){|f| f.print "Contents of the file" }
 
-    Kickstart.required_files{|| eval Kickstart.generate}.should==["file1","foo/file2"]
+    Groundwork.required_files{|| eval Groundwork.generate}.should==["file1","foo/file2"]
   end
 
 end

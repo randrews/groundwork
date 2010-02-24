@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"..","kickstart.rb")
+require File.join(File.dirname(__FILE__),"..","groundwork.rb")
 require "fileutils"
 
 describe "Directories" do
@@ -16,7 +16,7 @@ describe "Directories" do
   end
 
   it "should create a directory" do
-    Kickstart.new do
+    Groundwork.new do
       directory "foo"
     end
 
@@ -26,7 +26,7 @@ describe "Directories" do
   it "should accept a block" do
     x = false
 
-    Kickstart.new do
+    Groundwork.new do
       directory "foo" do
         x = true
       end
@@ -36,7 +36,7 @@ describe "Directories" do
   end
 
   it "should create subdirectories" do
-    Kickstart.new do
+    Groundwork.new do
       directory "foo" do
         directory "bar"
       end
@@ -46,7 +46,7 @@ describe "Directories" do
   end
 
   it "should make a tree of directories in one call" do
-    Kickstart.new do
+    Groundwork.new do
       directory "foo", "bar"
     end
 

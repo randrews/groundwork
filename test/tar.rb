@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"..","kickstart.rb")
+require File.join(File.dirname(__FILE__),"..","groundwork.rb")
 require "fileutils"
 
 describe "Tarballs" do

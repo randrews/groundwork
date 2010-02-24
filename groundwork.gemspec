@@ -1,7 +1,7 @@
-require 'rubygems'
+require "rubygems"
  
 SPEC=Gem::Specification.new do |s|
-  s.name='kickstart'
+  s.name="groundwork"
   s.version='0.0.1'
   s.date='2010-02-23'
   s.author='Andrews, Ross'
@@ -10,8 +10,8 @@ SPEC=Gem::Specification.new do |s|
   s.platform=Gem::Platform::RUBY
   s.summary="A project scaffolding generator"
  
-  s.files=["kickstart.rb", "tar_wrapper.rb"]
-  s.executables=["kickstart"]
+  s.files=["groundwork.rb", "tar_wrapper.rb"]
+  s.executables=["groundwork"]
   s.has_rdoc=false
  
   s.add_dependency("trollop",">= 1.10.2")

@@ -2,7 +2,7 @@ require "erb"
 require "pathname"
 require File.join(File.dirname(__FILE__), "tar_wrapper.rb")
 
-class Kickstart
+class Groundwork
   def initialize &block
     if block_given?
       instance_eval &block
@@ -56,7 +56,7 @@ class Kickstart
   def possible name ; end
 
   # Takes a block and lists the files that that block will require as templates.
-  # See Kickstart#possible
+  # See Groundwork#possible
   def self.required_files &block
     dummy = Object.new
     files = []
@@ -116,11 +116,11 @@ class Kickstart
   end
 
   # Takes a filename and runs the script contained in it. The file should be
-  # the results of Kickstart#compile
+  # the results of Groundwork#compile
   def self.run script_file
     (script, data) = File.read(script_file).split("\n__END__\n")
 
-    Kickstart.new do
+    Groundwork.new do
       self.tar = data
       eval script
     end

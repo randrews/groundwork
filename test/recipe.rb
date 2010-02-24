@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"..","kickstart.rb")
+require File.join(File.dirname(__FILE__),"..","groundwork.rb")
 require "fileutils"
 
 describe "Recipes" do
@@ -20,7 +20,7 @@ describe "Recipes" do
     File.open("bar","w"){|f| f.print "bar" }
     File.open("baz","w"){|f| f.print "baz" }
 
-    files = Kickstart.required_files do
+    files = Groundwork.required_files do
       possible "baz"
 
       file "one", :from=>"foo"
