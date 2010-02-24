@@ -6,7 +6,9 @@ module Groundwork
       banner <<-STR
 Usage:
        groundwork [global_options] command [command_options]
+
 Currently, the only implemented commands are "generate", which generates a recipe for the current directory, and "compile", which compiles a recipe with all the files it references.
+
 Options are:
 STR
       version "0.0.3"

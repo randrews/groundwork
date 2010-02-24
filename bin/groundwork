@@ -16,8 +16,10 @@ begin
       banner <<-STR
 Usage:
       groundwork generate [options] filename
+
 Generates a basic .recipe.rb file, which you can modify, from the current directory
-[options] are:
+
+Options are:
 STR
       opt :force, "Overwrite .recipe.rb file if exists", :default=>false
       opt :ignore, "Ignore files matching these filename patterns", :type=>:strings
@@ -51,8 +53,10 @@ STR
       banner <<-STR
 Usage:
       groundwork compile [options] filename.recipe.rb
+
 Compiles a .recipe.rb, including all referenced files into it.
-[options] are:
+
+Options are:
 STR
       opt :force, "Overwrite .recipe file if exists", :default=>false
       opt :print, "Instead of storing in a file, print the recipe to stdout", :default=>false
