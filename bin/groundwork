@@ -8,17 +8,34 @@ begin
   case options[:command]
   when "generate"
     generate_opts = Trollop::options(options[:remainder]) do
-      opt :force, :default=>false
+      banner <<-STR
+Usage:
+      groundwork generate [options] filename
+Generates a basic recipe, which you can modify, from the current directory
+[options] are:
+STR
+      opt :force, "Overwrite recipe file if exists", :default=>false
+      opt :ignore, "Ignore files matching these filename patterns", :type=>:strings
+      opt :print, "Instead of storing in a file, print the recipe to stdout", :default=>false
+      opt :chdir, "Before running, cd to the given directory", :default=>FileUtils.pwd
     end
 
-    name = options[:remainder].shift || "Recipe"
-
-    if File.exists?(name+".recipe") && !generate_opts[:force]
-      raise RuntimeError.new("File already exists: #{name}.recipe")
+    recipe = ""
+    FileUtils.cd(generate_opts[:chdir]) do
+      recipe = Groundwork::Recipe.generate FileUtils.pwd, :ignore => generate_opts[:ignore]
     end
 
-    recipe = Groundwork::Recipe.generate
-    File.open(name+".recipe","w"){|f| f.print recipe}
+    if generate_opts[:print]
+      puts recipe
+    else
+      name = options[:remainder].shift || "Recipe"
+
+      if File.exists?(name+".recipe") && !generate_opts[:force]
+        raise RuntimeError.new("File already exists: #{name}.recipe")
+      end
+
+      File.open(name+".recipe","w"){|f| f.print recipe}
+    end
   else
   end
 rescue

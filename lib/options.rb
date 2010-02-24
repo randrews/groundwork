@@ -3,7 +3,12 @@ require "abbrev"
 module Groundwork
   def self.parse_options opts=ARGV
     global_opts = Trollop::options(opts) do
-      banner "Groundwork"
+      banner <<-STR
+Usage:
+       groundwork [global_options] command [command_options]
+Currently, the only implemented command is "generate", which generates a recipe for the current directory
+Options are:
+STR
       version "0.0.2"
       stop_on_unknown
     end

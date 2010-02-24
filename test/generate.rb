@@ -37,4 +37,12 @@ describe "Generate" do
     Groundwork::Recipe.required_files{|| eval Groundwork::Recipe.generate}.should==["file1","foo/file2"]
   end
 
+  it "should generate things with ignores" do
+    File.open("file1","w"){|f| f.print "Contents of the file" }
+    FileUtils.mkdir "foo"
+    File.open("foo/file2","w"){|f| f.print "Contents of the file" }
+
+    recipe = Groundwork::Recipe.generate FileUtils.pwd, :ignore=>["**/file2"]
+    Groundwork::Recipe.required_files{|| eval recipe }.should==["file1"]
+  end
 end

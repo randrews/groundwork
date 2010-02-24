@@ -132,12 +132,17 @@ module Groundwork
 
     # Generate a tree of file and directory calls that would create the given
     # directory
-    def self.generate dir = FileUtils.pwd
+    def self.generate dir = FileUtils.pwd, options = {}
       base = Pathname.new dir
 
       handle_dir = lambda do |d, output, indent|
         FileUtils.cd d do
           Dir["*"].each do |file|
+            rel = Pathname.new(File.join(FileUtils.pwd,file))
+            relpath = rel.relative_path_from(base).to_s
+
+            next if options[:ignore] && options[:ignore].any?{|p| File.fnmatch(p,relpath) }
+
             if File.directory? file
               if Dir[File.join(file,"*")].empty?
                 output.puts((" "*indent)+"directory \"#{file}\"")
@@ -149,8 +154,6 @@ module Groundwork
                 output.puts("")
               end
             else
-              rel = Pathname.new(File.join(FileUtils.pwd,file))
-              relpath = rel.relative_path_from(base).to_s
               output.puts((" "*indent)+"file \"#{file}\", :from => \"#{relpath}\"")
             end
           end
