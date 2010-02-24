@@ -9,8 +9,10 @@ SPEC=Gem::Specification.new do |s|
   s.homepage='http://geekfu.org'
   s.platform=Gem::Platform::RUBY
   s.summary="A project scaffolding generator"
- 
-  s.files=["groundwork.rb", "tar_wrapper.rb"]
+  s.description="Create scripts that describe the groundwork for laying out your projects, and generate project frameworks"
+  s.rubyforge_project="groundwork" 
+
+  s.files=["lib/groundwork.rb", "lib/tar_wrapper.rb"]
   s.executables=["groundwork"]
   s.has_rdoc=false
  

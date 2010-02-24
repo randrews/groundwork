@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"..","groundwork.rb")
+require File.join(File.dirname(__FILE__),"..","lib","groundwork.rb")
 require "fileutils"
 
 describe "Files" do

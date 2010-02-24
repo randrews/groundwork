@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
 
-require File.join(File.dirname(__FILE__),"..","kickstart.rb")
+require File.join(File.dirname(__FILE__),"..","lib","groundwork.rb")
 
 puts "foo"
