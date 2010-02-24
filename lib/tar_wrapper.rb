@@ -2,7 +2,7 @@ require "rubygems"
 require "archive/tar/minitar"
 require "base64"
 
-class TarWrapper
+class Groundwork::TarWrapper
   include Archive::Tar
 
   # Takes a base64-encoded, tarred string

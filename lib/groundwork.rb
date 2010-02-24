@@ -1,8 +1,11 @@
+require "rubygems"
+require "trollop"
 require "erb"
 require "pathname"
+require File.join(File.dirname(__FILE__), "options.rb")
 require File.join(File.dirname(__FILE__), "tar_wrapper.rb")
 
-class Groundwork
+class Groundwork::Groundwork
   def initialize &block
     if block_given?
       instance_eval &block
@@ -10,7 +13,7 @@ class Groundwork
   end
 
   def tar= data
-    @tar = TarWrapper.new(data)
+    @tar = Groundwork::TarWrapper.new(data)
   end
 
   # Creates a directory. If a block is passed,
@@ -99,7 +102,7 @@ class Groundwork
         eval script
       end
 
-      data = TarWrapper.compress files
+      data = Groundwork::TarWrapper.compress files
     end
 
     out.puts "if $0==__FILE__"
@@ -120,7 +123,7 @@ class Groundwork
   def self.run script_file
     (script, data) = File.read(script_file).split("\n__END__\n")
 
-    Groundwork.new do
+    Groundwork::Groundwork.new do
       self.tar = data
       eval script
     end

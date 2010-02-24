@@ -18,7 +18,7 @@ describe "Tarballs" do
   it "should tar/untar a file" do
     File.open("foo","w"){|f| f.print "Contents of the file" }
 
-    str = TarWrapper.compress(["foo"])
-    TarWrapper.new(str)["foo"].should=="Contents of the file"
+    str = Groundwork::TarWrapper.compress(["foo"])
+    Groundwork::TarWrapper.new(str)["foo"].should=="Contents of the file"
   end
 end

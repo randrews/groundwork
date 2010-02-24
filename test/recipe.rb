@@ -20,7 +20,7 @@ describe "Recipes" do
     File.open("bar","w"){|f| f.print "bar" }
     File.open("baz","w"){|f| f.print "baz" }
 
-    files = Groundwork.required_files do
+    files = Groundwork::Groundwork.required_files do
       possible "baz"
 
       file "one", :from=>"foo"

@@ -24,7 +24,7 @@ describe "Compile" do
     }
 
     recipe = nil
-    lambda{recipe = Groundwork.compile("recipe") }.should_not raise_error
+    lambda{recipe = Groundwork::Groundwork.compile("recipe") }.should_not raise_error
     recipe.should_not be_nil
   end
 
@@ -36,12 +36,12 @@ describe "Compile" do
       f.puts "end"
     }
 
-    recipe = Groundwork.compile("recipe")
+    recipe = Groundwork::Groundwork.compile("recipe")
     File.open("compiled","w"){|f| f.print recipe }
 
     FileUtils.mkdir "tmp"
     FileUtils.cd "tmp" do
-      lambda{ Groundwork.run "../compiled" }.should_not raise_error
+      lambda{ Groundwork::Groundwork.run "../compiled" }.should_not raise_error
       File.exists?("blah/file1").should be_true
       File.read("blah/file1").should == "Contents of the file"
     end
