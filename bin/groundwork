@@ -12,7 +12,7 @@ begin
     ##################################################
   when "generate"
 
-    generate_opts = Trollop::options(options[:remainder]) do
+    cmd_opts = Trollop::options(options[:remainder]) do
       banner <<-STR
 Usage:
       groundwork generate [options] filename
@@ -28,16 +28,16 @@ STR
     end
 
     recipe = ""
-    FileUtils.cd(generate_opts[:chdir]) do
-      recipe = Groundwork::Recipe.generate FileUtils.pwd, :ignore => generate_opts[:ignore]
+    FileUtils.cd(cmd_opts[:chdir]) do
+      recipe = Groundwork::Recipe.generate FileUtils.pwd, :ignore => cmd_opts[:ignore]
     end
 
-    if generate_opts[:print]
+    if cmd_opts[:print]
       puts recipe
     else
       name = options[:remainder].shift || "Recipe"
 
-      if File.exists?(name+".recipe.rb") && !generate_opts[:force]
+      if File.exists?(name+".recipe.rb") && !cmd_opts[:force]
         raise RuntimeError.new("File already exists: #{name}.recipe.rb\nUse -f to overwrite")
       end
 
@@ -49,7 +49,7 @@ STR
     ##################################################
   when "compile"
 
-    compile_opts = Trollop::options(options[:remainder]) do
+    cmd_opts = Trollop::options(options[:remainder]) do
       banner <<-STR
 Usage:
       groundwork compile [options] filename.recipe.rb
@@ -68,21 +68,52 @@ STR
     raise RuntimeError.new("Cannot open #{input}") unless File.exists?(input)
 
     compiled = ""
-    FileUtils.cd(compile_opts[:chdir]) do
+    FileUtils.cd(cmd_opts[:chdir]) do
       compiled = Groundwork::Recipe.compile input
     end
 
-    if compile_opts[:print]
+    if cmd_opts[:print]
       puts compiled
     else
       name = options[:remainder].shift || File.basename(input,".recipe.rb")
 
-      if File.exists?(name+".recipe") && !compile_opts[:force]
+      if File.exists?(name+".recipe") && !cmd_opts[:force]
         raise RuntimeError.new("File already exists: #{name}.recipe\nUse -f to overwrite")
       end
 
       File.open(name+".recipe","w"){|f| f.print compiled}
     end
+
+    ##################################################
+    ### Install ######################################
+    ##################################################
+  when "install"
+
+    cmd_opts = Trollop::options(options[:remainder]) do
+      banner <<-STR
+Usage:
+      groundwork install [options] filename.recipe
+
+Installs a recipe into ~/.groundwork
+
+Options are:
+STR
+      opt :force, "Overwrite recipe if it already exists", :default=>false
+      opt :name, "Specify a name for the recipe other than the filename", :default=>false
+    end
+
+    file = options[:remainder].shift
+    raise RuntimeError.new("No input file given") unless file
+    raise RuntimeError.new("Cannot open #{file}") unless File.exists?(file)
+
+    dot_groundwork = File.expand_path("~/.groundwork")
+    FileUtils.mkdir(dot_groundwork) unless File.directory?(dot_groundwork)
+
+    if File.exists?(File.join(dot_groundwork,File.basename(file))) && !cmd_opts[:force]
+      raise RuntimeError.new("Recipe already exists: #{File.basename(file,'.recipe')}\nUse -f to replace")
+    end
+
+    FileUtils.cp file, dot_groundwork
   else
   end
 rescue

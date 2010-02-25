@@ -5,9 +5,13 @@ module Groundwork
     global_opts = Trollop::options(opts) do
       banner <<-STR
 Usage:
-       groundwork [global_options] command [command_options]
+      groundwork [global_options] command [command_options]
 
-Currently, the only implemented commands are "generate", which generates a recipe for the current directory, and "compile", which compiles a recipe with all the files it references.
+Commands:
+      generate - Generate a recipe for the current directory
+      compile  - Compile a .recipe.rb file into a .recipe
+      install  - Install a compiled .recipe file into ~/.groundwork
+      list     - List all recipes
 
 Options are:
 STR
@@ -23,7 +27,7 @@ STR
            })
   end
 
-  def self.short_for cmd_start, all_commands=["generate", "compile"]
+  def self.short_for cmd_start, all_commands=%w{generate compile install list}
     return cmd_start unless cmd_start
     return cmd_start if all_commands.index(cmd_start)
 
