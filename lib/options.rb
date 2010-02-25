@@ -1,8 +1,9 @@
 require "abbrev"
 
-VERSION = File.read(File.join(File.dirname(__FILE__), "..", "VERSION"))
-
 module Groundwork
+  GROUNDWORK_VERSION = File.read(File.join(File.dirname(__FILE__), "..", "VERSION"))
+  COMMANDS = Dir[File.join(File.dirname(__FILE__),"..","commands","*.rb")].map{|file| File.basename(file,".rb") }
+
   def self.parse_options opts=ARGV
     global_opts = Trollop::options(opts) do
       banner <<-STR
@@ -17,9 +18,9 @@ Commands:
 
       Use "groundwork <command> -h" for command-specific help
 
-Globa options are:
+Global options are:
 STR
-      version VERSION
+      version GROUNDWORK_VERSION
       stop_on_unknown
     end
 
@@ -31,7 +32,7 @@ STR
            })
   end
 
-  def self.short_for cmd_start, all_commands=%w{generate compile install list}
+  def self.short_for cmd_start, all_commands=(COMMANDS | known_recipes.keys)
     return cmd_start unless cmd_start
     return cmd_start if all_commands.index(cmd_start)
 
