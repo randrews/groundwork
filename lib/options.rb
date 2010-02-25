@@ -1,5 +1,7 @@
 require "abbrev"
 
+VERSION = File.read(File.join(File.dirname(__FILE__), "..", "VERSION"))
+
 module Groundwork
   def self.parse_options opts=ARGV
     global_opts = Trollop::options(opts) do
@@ -17,7 +19,7 @@ Commands:
 
 Globa options are:
 STR
-      version File.read(File.join(File.dirname(__FILE__), "..", "VERSION"))
+      version VERSION
       stop_on_unknown
     end
 
