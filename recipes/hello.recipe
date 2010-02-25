@@ -1,0 +1,3 @@
+file "hello.rb", <<-STR
+puts "Hello, world!"
+STR
