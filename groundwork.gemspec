@@ -2,7 +2,7 @@ require "rubygems"
  
 SPEC=Gem::Specification.new do |s|
   s.name="groundwork"
-  s.version='0.0.3'
+  s.version = File.read(File.join(File.dirname(__FILE__), "VERSION"))
   s.date='2010-02-23'
   s.author='Andrews, Ross'
   s.email='randrews@geekfu.org'
@@ -12,7 +12,7 @@ SPEC=Gem::Specification.new do |s|
   s.description="Create scripts that describe the groundwork for laying out your projects, and generate project frameworks"
   s.rubyforge_project="groundwork" 
 
-  s.files = Dir["lib/**/*.rb"] + Dir["commands/**/*.rb"]
+  s.files = ["VERSION"] + Dir["lib/**/*.rb"] + Dir["commands/**/*.rb"] + Dir["recipes/**/*.recipe"]
   s.executables=["groundwork"]
   s.has_rdoc=false
  

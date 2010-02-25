@@ -17,7 +17,7 @@ Commands:
 
 Globa options are:
 STR
-      version "0.0.3"
+      version File.read(File.join(File.dirname(__FILE__), "..", "VERSION"))
       stop_on_unknown
     end
 
