@@ -24,7 +24,7 @@ describe "Compile" do
     }
 
     recipe = nil
-    lambda{recipe = Groundwork::Recipe.compile("recipe") }.should_not raise_error
+    lambda{recipe = Groundwork::Recipe.compile_file("recipe") }.should_not raise_error
     recipe.should_not be_nil
   end
 
@@ -36,7 +36,7 @@ describe "Compile" do
       f.puts "end"
     }
 
-    recipe = Groundwork::Recipe.compile("recipe")
+    recipe = Groundwork::Recipe.compile_file("recipe")
     File.open("compiled","w"){|f| f.print recipe }
 
     FileUtils.mkdir "tmp"

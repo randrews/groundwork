@@ -90,15 +90,18 @@ module Groundwork
       dummy.files
     end
 
+    def self.compile_file filename
+      compile File.read(filename), File.dirname(filename)
+    end
+
     # Takes a script file, finds the files it requires (paths relative to the script file),
     # reads/tars them and returns a string containing the script and the TAR blob, ready
     # to write to a file
-    def self.compile script_file
-      script = File.read(script_file)
+    def self.compile script, in_directory
       out = StringIO.new
       data = nil
 
-      FileUtils.cd(File.dirname(script_file)) do
+      FileUtils.cd(in_directory) do
         files = required_files do
           eval script
         end
@@ -106,11 +109,6 @@ module Groundwork
         data = TarWrapper.compress files
       end
 
-      out.puts "if $0==__FILE__"
-      out.puts "  require 'rubygems'"
-      out.puts "  require 'groundwork'"
-      out.puts "end"
-      out.puts ""
       out.puts script
       out.puts ""
       out.puts "__END__"

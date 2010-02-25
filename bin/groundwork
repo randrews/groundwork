@@ -64,18 +64,25 @@ STR
     end
 
     input = options[:remainder].shift
-    raise RuntimeError.new("No input file given") unless input
-    raise RuntimeError.new("Cannot open #{input}") unless File.exists?(input)
+    raise RuntimeError.new("Cannot open #{input}") if input && !File.exists?(input)
 
     compiled = ""
     FileUtils.cd(cmd_opts[:chdir]) do
-      compiled = Groundwork::Recipe.compile input
+      compiled = if input
+                   Groundwork::Recipe.compile_file input
+                 else
+                   Groundwork::Recipe.compile STDIN.read, FileUtils.pwd
+                 end
     end
 
     if cmd_opts[:print]
       puts compiled
     else
-      name = options[:remainder].shift || File.basename(input,".recipe.rb")
+      name = options[:remainder].shift || if input
+                                            File.basename(input,".recipe.rb")
+                                          else
+                                            File.basename(FileUtils.pwd)
+                                          end
 
       if File.exists?(name+".recipe") && !cmd_opts[:force]
         raise RuntimeError.new("File already exists: #{name}.recipe\nUse -f to overwrite")

@@ -5,7 +5,7 @@ module Groundwork
     global_opts = Trollop::options(opts) do
       banner <<-STR
 Usage:
-      groundwork [global_options] command [command_options]
+      groundwork [global_options] <command> [command_options]
 
 Commands:
       generate - Generate a recipe for the current directory
@@ -13,7 +13,9 @@ Commands:
       install  - Install a compiled .recipe file into ~/.groundwork
       list     - List all recipes
 
-Options are:
+      Use "groundwork <command> -h" for command-specific help
+
+Globa options are:
 STR
       version "0.0.3"
       stop_on_unknown
