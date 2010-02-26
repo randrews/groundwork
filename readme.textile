@@ -22,12 +22,32 @@ Installs the given recipe file into ~/.groundwork
 
 Some recipes take options, which you can see with @install <recipe> -h@
 
-h3. Making recipes
+h2. Making recipes
+
+h3. The recipe DSL
 
 A recipe is a script written in a Ruby DSL. It's pretty straightforward:
 
-bc. file "file1.txt", "File 1 contents"
- 
+<pre>file "file1.txt", "File 1 contents"
+
 directory "dir1" do
-    file "file2.txt", "File 2 contents"
-end
+    file "file2.txt", :erb => "<%= 2 + 2 %>"
+end</pre>
+
+Most of the time you'll want to make it generate files from other files,
+instead of putting the contents inline. You can do so like this:
+
+@file "filename", :from => "path/to/file"@
+
+Or, to generate a file from an ERb template:
+
+@file "filename", :from_erb => "path/to/file"@
+
+h3. Compiling
+
+If your recipe references external files, you should compile it like so:
+
+*@groundwork compile <recipe_file>@*
+
+This will include all the files your script reads from into the script
+itself, and make a self-contained file for installing.
