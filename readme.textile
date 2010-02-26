@@ -1,0 +1,33 @@
+h1. Groundwork
+
+Creates project outlines. Often, there are a lot of boilerplate files
+you need to start a project; this helps you not only create those
+files, but make recipes to add new types of project.
+
+h2. Basic use
+
+Groundwork uses subcommands:
+
+*@groundwork list@*
+
+lists the known recipes, both built-in and ones you've installed
+
+*@groundwork <recipe> <name>@*
+
+Creates a directory called _name_ and runs the given recipe in it.
+
+*@groundwork install <recipe_file>@*
+
+Installs the given recipe file into ~/.groundwork
+
+Some recipes take options, which you can see with @install <recipe> -h@
+
+h3. Making recipes
+
+A recipe is a script written in a Ruby DSL. It's pretty straightforward:
+
+bc. file "file1.txt", "File 1 contents"
+ 
+directory "dir1" do
+    file "file2.txt", "File 2 contents"
+end
