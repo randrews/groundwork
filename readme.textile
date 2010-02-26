@@ -1,8 +1,6 @@
 h1. Groundwork
 
-Creates project outlines. Often, there are a lot of boilerplate files
-you need to start a project; this helps you not only create those
-files, but make recipes to add new types of project.
+Groundwork generates project outlines. Often, there are a lot of boilerplate files you need to start a project; this helps you not only create those files, but make recipes to add new types of project.
 
 h2. Basic use
 
@@ -20,8 +18,7 @@ Creates a directory called _name_ and runs the given recipe in it.
 
 Installs the given recipe file into ~/.groundwork
 
-You can get help on Groundwork with *@groundwork -h@* and help for a
-specific command (including recipes) with *@groundwork <command> -h@*
+You can get help on Groundwork with *@groundwork -h@* and help for a specific command (including recipes) with *@groundwork <command> -h@*
 
 h2. Making recipes
 
@@ -35,8 +32,7 @@ directory "dir1" do
     file "file2.txt", :erb => "<%= 2 + 2 %>"
 end</pre>
 
-Most of the time you'll want to make it generate files from other files,
-instead of putting the contents inline. You can do so like this:
+Most of the time you'll want to make it generate files from other files, instead of putting the contents inline. You can do so like this:
 
 @file "filename", :from => "path/to/file"@
 
@@ -50,8 +46,7 @@ If your recipe references external files, you should compile it like so:
 
 *@groundwork compile <recipe_file>@*
 
-This will include all the files your script reads from into the script
-itself, and make a self-contained file for installing.
+This will include all the files your script reads from into the script itself, and make a self-contained file for installing.
 
 h3. Generating
 
