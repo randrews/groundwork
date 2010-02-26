@@ -20,7 +20,8 @@ Creates a directory called _name_ and runs the given recipe in it.
 
 Installs the given recipe file into ~/.groundwork
 
-Some recipes take options, which you can see with @install <recipe> -h@
+You can get help on Groundwork with *@groundwork -h@* and help for a
+specific command (including recipes) with *@groundwork <command> -h@*
 
 h2. Making recipes
 
@@ -51,3 +52,11 @@ If your recipe references external files, you should compile it like so:
 
 This will include all the files your script reads from into the script
 itself, and make a self-contained file for installing.
+
+h3. Generating
+
+As a convenience, to easily make recipes, you can do
+
+*@groundwork generate@*
+
+which will make a basic recipe you can modify for the current directory.
