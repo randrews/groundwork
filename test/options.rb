@@ -51,4 +51,18 @@ describe "Options" do
 
         recipe.instance_variable_get("@name").should be_nil
     end
+
+    it "should handle options in required_files" do
+        lambda{
+            reqs = Groundwork::Recipe.required_files do
+                options do
+                    opt :foo, "Foo mode", :type=>:string
+                end
+
+                file "foo", :from => "foo"
+            end
+
+            reqs.should==["foo"]
+        }.should_not raise_error
+    end
 end
