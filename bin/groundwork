@@ -3,13 +3,20 @@
 require File.join(File.dirname(__FILE__),"..","lib","groundwork.rb")
 
 begin
-  options = Groundwork::parse_options
+    options = Groundwork::parse_options
 
-  raise RuntimeError.new("No command given; use \"groundwork -h\" for help") unless options[:command]
+    raise RuntimeError.new("No command given; use \"groundwork -h\" for help") unless options[:command]
 
-  load File.join(File.dirname(__FILE__),"..","commands",options[:command]+".rb")
+    command_file = File.join(File.dirname(__FILE__),"..","commands",options[:command]+".rb")
 
-  Groundwork::Commands.send options[:command], options[:remainder]
+    if File.exists? command_file
+        load command_file
+        Groundwork::Commands.send options[:command], options[:remainder]
+    elsif Groundwork.known_recipes[options[:command]]
+        Groundwork::Recipe.run Groundwork.known_recipes[options[:command]]
+    else
+        raise RuntimeError.new("#{options[:command]} is neither a command nor a recipe name; use \"groundwork -h\" for help")
+    end
 rescue
-  puts $!.to_s
+    puts $!.to_s
 end

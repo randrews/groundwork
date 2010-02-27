@@ -12,7 +12,7 @@ lists the known recipes, both built-in and ones you've installed
 
 *@groundwork <recipe> <name>@*
 
-Creates a directory called _name_ and runs the given recipe in it.
+Runs the recipe given by _name_
 
 *@groundwork install <recipe_file>@*
 
