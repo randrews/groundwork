@@ -66,7 +66,7 @@ module Groundwork
         (script, data) = File.read(script_file).split("\n__END__\n")
 
         Groundwork::Recipe.new do
-          self.tar = data
+          self.tar = data if data
           eval script
         end
       end
