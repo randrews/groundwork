@@ -55,3 +55,23 @@ As a convenience, to easily make recipes, you can do
 *@groundwork generate@*
 
 which will make a basic recipe you can modify for the current directory.
+
+h3. Options
+
+Your recipes can take options from the command line. Groundwork uses Trollop for option parsing, so the syntax is like this:
+
+<pre>options do
+	opt :domain, "Domain name", :default => "geekfu.org"
+end
+
+if @domain_given
+	file "domain.txt", :erb=> "The domain is <%= @domain %>"
+end</pre>
+
+Every script is guaranteed at least one argument: _name_, the name of the newly-created directory that we're building running the recipe in. This is the first remaining command-line parameter after options and flags are parsed out:
+
+*@groundwork example-recipe -a --foo-mode -n 10 name@*
+
+*@groundwork example-recipe name -x@*
+
+In both cases, Trollop is intelligent enough to figure out that _name_ is the name, and the rest are options and flags described in @options@.
