@@ -1,6 +1,8 @@
 module Groundwork
     class Recipe
-        def initialize &block
+        def initialize args=[], &block
+            @args = args
+            @name = args[0]
             if block_given?
                 instance_eval &block
             end
@@ -8,6 +10,20 @@ module Groundwork
 
         def tar= data
             @tar = TarWrapper.new(data)
+        end
+
+        def options &block
+            opts = Trollop::options(@args) do
+                self.instance_eval &block
+            end
+
+            opts.each do |name, val|
+                instance_variable_set "@#{name}", val
+            end
+
+            @name = @args[0]
+
+            opts
         end
 
         # Creates a directory. If a block is passed,
