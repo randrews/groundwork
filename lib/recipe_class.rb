@@ -62,10 +62,10 @@ module Groundwork
 
       # Takes a filename and runs the script contained in it. The file should be
       # the results of Groundwork::Recipe#compile
-      def run script_file
+      def run script_file, args=[]
         (script, data) = File.read(script_file).split("\n__END__\n")
 
-        Groundwork::Recipe.new do
+        Groundwork::Recipe.new args do
           self.tar = data if data
           eval script
         end

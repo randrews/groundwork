@@ -13,7 +13,7 @@ begin
         load command_file
         Groundwork::Commands.send options[:command], options[:remainder]
     elsif Groundwork.known_recipes[options[:command]]
-        Groundwork::Recipe.run Groundwork.known_recipes[options[:command]]
+        Groundwork::Recipe.run Groundwork.known_recipes[options[:command]], options[:remainder]
     else
         raise RuntimeError.new("#{options[:command]} is neither a command nor a recipe name; use \"groundwork -h\" for help")
     end
