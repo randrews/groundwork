@@ -26,9 +26,9 @@ describe "Unpack" do
 
         Groundwork::Recipe.unpack("test", "recipe")
 
-        File.directory?("test/foo").should be_true
-        File.directory?("test/bar").should be_true
-        File.directory?("test/bar/baz").should be_true
+        # All it should create is the directory and the recipe
+        File.directory?("test").should be_true
+        File.exists?("test/test.recipe").should be_true
     end
 
     it "should unpack external files" do
