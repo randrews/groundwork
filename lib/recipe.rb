@@ -68,7 +68,7 @@ module Groundwork
         # nothing when the script is actually run.
         def possible name ; end
 
-        private
+        protected
 
         def read_file name
             if @tar
