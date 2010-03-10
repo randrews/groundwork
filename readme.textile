@@ -56,6 +56,14 @@ As a convenience, to easily make recipes, you can do
 
 which will make a basic recipe you can modify for the current directory.
 
+h3. Unpacking
+
+You can modify a recipe that's been installed with:
+
+*@groundwork unpack <recipe>@*
+
+This will put the recipe file and the required external files into a directory under the current one. You can then modify them, recompile, and reinstall. A recipe that you've installed into .groundwork takes precedence over one that comes with the gem, so you can overload built-in recipes.
+
 h3. Options
 
 Your recipes can take options from the command line. Groundwork uses Trollop for option parsing, so the syntax is like this:
