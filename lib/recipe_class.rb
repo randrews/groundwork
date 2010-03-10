@@ -71,8 +71,9 @@ module Groundwork
                 end
             end
 
-            # Takes a directory and a block, and unpacks the script given in the block into
-            # the directory.
+            # Takes the name of a directory and a block, and unpacks the script given
+            # in the block into the directory.
+            #
             # If the second argument is given, the script is loaded from that filename instead
             # of using the block
             def unpack unpack_to, filename
@@ -85,6 +86,8 @@ module Groundwork
                         self.tar = data if data
                         eval recipe
                     end
+
+                    File.open("#{unpack_to}.recipe","w"){|f| f.puts recipe }
                 end
             end
 

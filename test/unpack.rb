@@ -46,4 +46,23 @@ describe "Unpack" do
         File.exists?("test/file1").should be_true
         File.read("test/file1").should=="blah"
     end
+
+    it "should print out the recipe file" do
+        File.open("recipe", "w") do |f|
+            f.puts "file \"foo\", :from=>\"file1\""
+        end
+
+        File.open("file1","w"){|f| f.print("blah")}
+
+        recipe = Groundwork::Recipe.compile_file("recipe")
+        File.open("compiled","w"){|f| f.print recipe }
+
+        Groundwork::Recipe.unpack("test", "compiled")
+
+        File.exists?("test/test.recipe").should be_true
+
+        # Not only should it exist, it shouldn't have the
+        # data block in it
+        File.read("test/test.recipe").should==File.read("recipe")
+    end
 end
