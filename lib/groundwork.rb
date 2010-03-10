@@ -6,6 +6,7 @@ require File.join(File.dirname(__FILE__), "options.rb")
 require File.join(File.dirname(__FILE__), "tar_wrapper.rb")
 require File.join(File.dirname(__FILE__), "recipe.rb")
 require File.join(File.dirname(__FILE__), "recipe_class.rb")
+require File.join(File.dirname(__FILE__), "recipe_unpacker.rb")
 
 module Groundwork
 
