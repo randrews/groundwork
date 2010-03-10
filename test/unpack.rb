@@ -49,7 +49,7 @@ describe "Unpack" do
 
     it "should print out the recipe file" do
         File.open("recipe", "w") do |f|
-            f.puts "file \"foo\", :from=>\"file1\""
+            f.puts "file 'foo', :from=>'file1'"
         end
 
         File.open("file1","w"){|f| f.print("blah")}
@@ -65,4 +65,40 @@ describe "Unpack" do
         # data block in it
         File.read("test/test.recipe").should==File.read("recipe")
     end
+
+    it "should unpack external files in subdirectories" do
+        File.open("recipe", "w") do |f|
+            f.puts "file 'foo', :from=>'a/b/file1'"
+        end
+
+        FileUtils.mkdir_p "a/b"
+        File.open("a/b/file1","w"){|f| f.print("blah")}
+
+        recipe = Groundwork::Recipe.compile_file("recipe")
+        File.open("compiled","w"){|f| f.print recipe }
+
+        Groundwork::Recipe.unpack("test", "compiled")
+
+        File.exists?("test/a/b/file1").should be_true
+        File.read("test/a/b/file1").should=="blah"
+    end
+
+    it "should evaluate files generated in directories, even if the directories themselves don't get made" do
+        File.open("recipe", "w") do |f|
+            f.puts "directory 'dir1' do"
+            f.puts "    file 'foo', :from=>'file1'"
+            f.puts "end"
+        end
+
+        File.open("file1","w"){|f| f.print("blah")}
+
+        recipe = Groundwork::Recipe.compile_file("recipe")
+        File.open("compiled","w"){|f| f.print recipe }
+
+        Groundwork::Recipe.unpack("test", "compiled")
+
+        File.exists?("test/file1").should be_true
+        File.read("test/file1").should=="blah"
+    end
+
 end
