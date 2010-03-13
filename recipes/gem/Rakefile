@@ -12,7 +12,6 @@ task :clean do
 
   puts "Removing built gem"
   `rm -f *.gem`
-  `rm -f recipes/gem.recipe`
 end
 
 desc "Run all tests"
@@ -21,14 +20,14 @@ task :test do
 end
 
 desc "Create a gem"
-task :gem => "recipes/gem.recipe" do
-  `rm -f groundwork-*.gem`
-  `gem build groundwork.gemspec`
+task :gem do
+  `rm -f <%=@name%>-*.gem`
+  `gem build <%=@name%>.gemspec`
 end
 
-desc "Install groundwork"
+desc "Install <%=@name%>"
 task :install=>:gem do
-  `gem install --force groundwork-*.gem`
+  `gem install --force <%=@name%>-*.gem`
 end
 
 desc "Bump version number"
@@ -39,16 +38,4 @@ task :bump do
     end
 
     puts "Bumped version to #{new_version}"
-end
-
-##################################################
-
-file "recipes/gem.recipe" do
-    require "lib/groundwork.rb"
-
-    FileUtils.cd "recipes/gem" do
-        @compiled = Groundwork::Recipe.compile_file "gem.recipe.rb"
-    end
-
-    File.open("recipes/gem.recipe","w"){|f| f.print @compiled }
 end

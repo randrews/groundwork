@@ -1,0 +1,16 @@
+h1. <%=@name%>
+
+<%=@name%> does something
+
+h2. Basic use
+
+h2. Advanced use
+
+h3. A subheader
+
+<pre># Some code
+def foo n
+    n*n
+end</pre>
+
+@i_am_a(code.snippet)@
