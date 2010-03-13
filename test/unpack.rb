@@ -101,4 +101,20 @@ describe "Unpack" do
         File.read("test/file1").should=="blah"
     end
 
+    it "should unpack files mentioned in a possible" do
+        File.open("recipe", "w") do |f|
+            f.puts "possible \"file1\""
+        end
+
+        File.open("file1","w"){|f| f.print("blah")}
+
+        recipe = Groundwork::Recipe.compile_file("recipe")
+        File.open("compiled","w"){|f| f.print recipe }
+
+        Groundwork::Recipe.unpack("test", "compiled")
+
+        File.exists?("test/file1").should be_true
+        File.read("test/file1").should=="blah"
+    end
+
 end

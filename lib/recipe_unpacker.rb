@@ -13,6 +13,10 @@ module Groundwork
             end
         end
 
+        def possible filename
+            File.open(filename,"w"){|f| f.print read_file(filename) }
+        end
+
         def method_missing *args ; end
     end
 end
