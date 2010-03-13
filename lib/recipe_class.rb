@@ -87,7 +87,7 @@ module Groundwork
                         eval recipe
                     end
 
-                    File.open("#{unpack_to}.recipe","w"){|f| f.puts recipe }
+                    File.open("#{unpack_to}.recipe.rb","w"){|f| f.puts recipe }
                 end
             end
 

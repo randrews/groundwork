@@ -28,7 +28,7 @@ describe "Unpack" do
 
         # All it should create is the directory and the recipe
         File.directory?("test").should be_true
-        File.exists?("test/test.recipe").should be_true
+        File.exists?("test/test.recipe.rb").should be_true
     end
 
     it "should unpack external files" do
@@ -59,11 +59,11 @@ describe "Unpack" do
 
         Groundwork::Recipe.unpack("test", "compiled")
 
-        File.exists?("test/test.recipe").should be_true
+        File.exists?("test/test.recipe.rb").should be_true
 
         # Not only should it exist, it shouldn't have the
         # data block in it
-        File.read("test/test.recipe").should==File.read("recipe")
+        File.read("test/test.recipe.rb").should==File.read("recipe")
     end
 
     it "should unpack external files in subdirectories" do
